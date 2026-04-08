@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="./styles.css">
     <title>Registro DCC</title>
 </head>
-<body">
+<body>
+    <div>
     <h2 class="mb-5 text-center">Registro de Comunidad</h2>
     
     <form name="myForm" id="form-register" action="#" method="post" novalidate>
@@ -26,18 +27,25 @@
             <input type="tel" class="form-control" name="phone" id="phone" placeholder="569 12345678">
         </div>
 
-         <div class="mb-3">
-            <label for="telegram" class="form-label">Nombre de Telegram</label>
-            <input type="text" class="form-control" name="telegram" id="telegram" placeholder="@usuarioX"><br>
+        <div class="mb-3">
+            <label for="select-department" class="form-label">Categoría</label>
+            <select class="form-select" name="select-department" id="select-department">
+                <option value="">Seleccione una categoría</option>
+                <option value="funcionario">Funcionario</option>
+                <option value="estudiante">Estudiante</option>
+                <option value="academico">Académico/Docente</option>
+            </select>
         </div>
 
         <div class="checkbox" style="margin-top: 20px; margin-bottom: 20px;">
             <label>
                 <input type="checkbox" name="terminos" id="terminos">
-                 Confirmo ser parte del departamento de Ciencias de la Computación 
+                 Confirmo ser parte del departamento de Ciencias de la Computación
+                 y que <br> la información proporcionada pueda ser usada para fines estadísticos y de contacto. 
             </label>
         </div><br>
             <button id="submit-btn" type="button" class="btn btn-primary btn-lg">Continuar</button>
         </form>
+        </div>
 </body>
 </html>
