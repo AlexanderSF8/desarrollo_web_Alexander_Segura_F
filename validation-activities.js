@@ -42,13 +42,34 @@ const showError = (idInput, mensaje) => {
     if (!errorElement) {
         errorElement = document.createElement('div');
         errorElement.id = `error-${idInput}`;
-        errorElement.className = 'text-danger small mt-1 error-msg'; // Bootstrap class
-        inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
+        // w-100 obliga al texto a usar una línea nueva para no chocar con nada
+        errorElement.className = 'text-danger small mt-1 error-msg w-100'; 
+        
+        // --- MAGIA PARA NO ROMPER BOOTSTRAP ---
+        if (inputElement.closest('.input-group')) {
+            // Si está en un input-group (ej: días/horas), lo ponemos debajo del grupo entero
+            const inputGroup = inputElement.closest('.input-group');
+            inputGroup.parentNode.insertBefore(errorElement, inputGroup.nextSibling);
+        } else if (inputElement.closest('.form-check')) {
+            // Si es un radio o checkbox, lo ponemos debajo de su fila
+            const formCheck = inputElement.closest('.form-check');
+            formCheck.parentNode.insertBefore(errorElement, formCheck.nextSibling);
+        } else {
+            // Comportamiento normal para inputs de texto normales
+            inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
+        }
     }
 
     errorElement.innerText = mensaje;
     errorElement.style.display = 'block';
-    inputElement.style.border = '2px solid #dc3545'; 
+    
+    // Efecto visual de error (los checkboxes se ven raros con "border", mejor usar "outline")
+    if (inputElement.type === 'radio' || inputElement.type === 'checkbox') {
+        inputElement.style.outline = '2px solid #dc3545';
+        inputElement.style.outlineOffset = '2px';
+    } else {
+        inputElement.style.border = '2px solid #dc3545'; 
+    }
 };
 
 const clearErrors = () => {
@@ -87,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (categoryUser === 'academico') teachingBlock.classList.remove('d-none');
 
     // --- VALIDATION LOGIC ---
-    const form = document.querySelector('form-activities');
+    const form = document.querySelector('#form-activities');
     
     if (form) {
         form.addEventListener("submit", function(event) {
@@ -99,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Specific validations based on category
             if (categoryUser === 'estudiante') {
                 if (!validateCheckboxes('nivel_academico')) {
-                    showError('Posgrado', 'Seleccione su nivel académico.');
+                    showError('postgrado', 'Seleccione su nivel académico.');
                     haveError = true;
                 }
                 const año = document.getElementById('año_ingreso').value;
@@ -114,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-            if (categoriaUsuario === 'funcionario') {
+            if (categoryUser === 'funcionario') {
                 if (!validateText(document.getElementById('cargo').value, 3)) {
                     showError('cargo', 'Ingrese un cargo válido.');
                     haveError = true;
@@ -125,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-            if (categoriaUsuario === 'academico') {
+            if (categoryUser === 'academico') {
                 if (!validateText(document.getElementById('ramos').value, 3)) {
                     showError('ramos', 'Debe ingresar al menos un ramo.');
                     haveError = true;
@@ -147,9 +168,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 haveError = true;
             }
 
-            const dias = document.getElementById('días_semana').value;
+            const dias = document.getElementById('dias_semana').value;
             if (!validateNumber(dias, 1, 7)) {
-                showError('días_semana', 'Debe ser entre 1 y 7 días.');
+                showError('dias_semana', 'Debe ser entre 1 y 7 días.');
                 haveError = true;
             }
 

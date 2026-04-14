@@ -10,10 +10,10 @@
     <div class="caja-formulario">
     <h2>Registro de Actividades</h2>
 
-    <form id="form-activities" action="#" method="post">
+    <form id="form-activities" action="#" method="post" novalidate>
 
         <!-- required for estudiantes -->
-        <div id="student-activities" class=""> <!-- d-none -->
+        <div id="student-activities" class="d-none"> <!-- d-none -->
             <div class="mb-3"> 
                 <label class="form-label">Nivel académico</label>
                 <div class="form-check">
@@ -42,7 +42,7 @@
         </div>
 
         <!-- required for staff -->
-        <div id="staff-activities" class=""> <!-- d-none -->
+        <div id="staff-activities" class="d-none"> <!-- d-none -->
              <div class="mb-3">
                 <label for="cargo" class="form-label">Cargo</label>
                 <input type="text" class="form-control" name="cargo" id="cargo" placeholder="secretaria docente, jefe, supervisor ...">
@@ -55,7 +55,7 @@
         </div>
 
         <!-- required for teaching -->
-        <div id="teaching-activities" class=""> <!-- d-none -->
+        <div id="teaching-activities" class="d-none"> <!-- d-none -->
              <div class="mb-3">
                 <label for="ramos" class="form-label">Cursos o Ramos que dicta</label>
                 <input type="text" class="form-control" name="ramos" id="ramos" placeholder="Bases de Datos, Sistemas Operativos...">
@@ -127,7 +127,7 @@
             <input type="url" class="form-control" name="enlace" id="enlace" placeholder="https://www.instagram.com/usuarioX/actividadY">
         </div>
 
-        <button type="submit " class="btn btn-primary mt-2">Registrar Actividad</button>
+        <button type="submit" class="btn btn-primary mt-2">Registrar Actividad</button>
     </form>
     </div>
     <script src="./validation-activities.js"></script>

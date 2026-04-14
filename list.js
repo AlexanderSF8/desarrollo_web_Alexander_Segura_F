@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const prevDisabled = currentPage === 1 ? 'disabled' : '';
         paginationControls.innerHTML += `
             <li class="page-item ${prevDisabled}">
-                <a class="page-link" href="#" data-page="${currentPage - 1}">Anterior</a>
+                <a class="page-link" role="button" data-page="${currentPage - 1}">Anterior</a>
             </li>
         `;
 
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const activeClass = currentPage === i ? 'active' : '';
             paginationControls.innerHTML += `
                 <li class="page-item ${activeClass}">
-                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    <a class="page-link" role="button" data-page="${i}">${i}</a>
                 </li>
             `;
         }
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const nextDisabled = currentPage === totalPages ? 'disabled' : '';
         paginationControls.innerHTML += `
             <li class="page-item ${nextDisabled}">
-                <a class="page-link" href="#" data-page="${currentPage + 1}">Siguiente</a>
+                <a class="page-link" role="button" data-page="${currentPage + 1}">Siguiente</a>
             </li>
         `;
 

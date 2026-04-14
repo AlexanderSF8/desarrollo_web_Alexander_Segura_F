@@ -68,10 +68,11 @@ const clearErrors = () => {
 document.addEventListener("DOMContentLoaded", function() {
 
     // catch the submit button
-    const submitBtn = document.getElementById('submit-btn');
+    const form= document.getElementById('form-register');
     
-    if (submitBtn) {
-        submitBtn.addEventListener('click', function(event) {
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); 
     
             clearErrors();
 
