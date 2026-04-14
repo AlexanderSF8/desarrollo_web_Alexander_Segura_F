@@ -32,3 +32,11 @@ h1, h2, h3 {
     width: 100%;
     max-width: 500px; /* Lo hacemos un poco más angosto para que se vea más pro */
 }
+
+.member-card-img {
+    width: 100%;                  /* Ocupa todo el ancho disponible de la card */
+    height: auto;                 /* Altura automática para mantener proporciones */
+    object-fit: contain;          /* Ajusta la imagen sin recortarla */
+    object-position: center;      /* Centra la imagen */
+    border-radius: 0.25rem;       /* Mantiene los bordes redondeados (clase 'rounded' de Bootstrap) */
+}
