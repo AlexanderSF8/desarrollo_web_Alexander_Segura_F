@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Registro DCC</title>
+</head>
+<body>
+    <div>
+        
+    <h2 class="mb-5 text-center">Registro de Comunidad</h2>
+    
+    <form name="myForm" id="form-register" action="#" method="post" novalidate>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="complete con su nombre">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="correo@ejemplo.com">
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" name="phone" id="phone" placeholder="569 12345678">
+        </div>
+
+        <div class="mb-3">
+            <label for="select-department" class="form-label">Categoría</label>
+            <select class="form-select" name="select-department" id="select-department">
+                <option value="">Seleccione una categoría</option>
+                <option value="funcionario">Funcionario</option>
+                <option value="estudiante">Estudiante</option>
+                <option value="academico">Académico/Docente</option>
+            </select>
+        </div>
+
+        <div class="checkbox" style="margin-top: 20px; margin-bottom: 20px;">
+            <label>
+                <input type="checkbox" name="terminos" id="terminos">
+                 Confirmo ser parte del departamento de Ciencias de la Computación
+                 y que <br> la información proporcionada pueda ser usada para fines estadísticos y de contacto. 
+            </label>
+        </div><br>
+            <div class="d-flex justify-content-between mt-5 mb-3">
+                <a href="index.html" class="btn btn-outline-secondary btn-lg"><i class="bi bi-arrow-left me-2"></i> Volver al Inicio</a>
+                <button id="submit-btn" type="submit" class="btn btn-primary btn-lg px-5">Continuar <i class="bi bi-arrow-right ms-2"></i></button>
+            </div>
+        </form>
+        </div>
+        <script src="./validation-register.js"></script>
+</body>
+</html>
