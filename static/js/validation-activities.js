@@ -107,6 +107,8 @@ document.addEventListener("DOMContentLoaded", function() {
     if (categoryUser === 'funcionario') staffBlock.classList.remove('d-none');
     if (categoryUser === 'academico') teachingBlock.classList.remove('d-none');
 
+    const selectedCategory = categoryUser; // Ahora usa la variable inyectada
+
     // --- VALIDATION LOGIC ---
     const form = document.querySelector('#form-activities');
     
@@ -117,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
             let haveError = false;
 
             // Specific validations based on category
-            if (categoryUser === 'estudiante') {
+            if (selectedCategory === 'estudiante') {
                 if (!validateCheckboxes('nivel_academico')) {
                     showError('postgrado', 'Seleccione su nivel académico.');
                     haveError = true;
@@ -134,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-            if (categoryUser === 'funcionario') {
+            if (selectedCategory === 'funcionario') {
                 if (!validateText(document.getElementById('cargo').value, 3)) {
                     showError('cargo', 'Ingrese un cargo válido.');
                     haveError = true;
@@ -145,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-            if (categoryUser === 'academico') {
+            if (selectedCategory === 'academico') {
                 if (!validateText(document.getElementById('ramos').value, 3)) {
                     showError('ramos', 'Debe ingresar al menos un ramo.');
                     haveError = true;

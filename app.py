@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.utils import secure_filename
 import os
 import re
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Cambia esto por una clave segura
+app.secret_key = 's3cr3t_k3y'  
 UPLOAD_FOLDER = 'static/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -48,6 +48,8 @@ def register():
             flash('El correo electrónico no es válido.', 'error')
             return redirect(url_for('register'))
 
+        # Guardar la categoría en la sesión
+        session['user_category'] = category
         flash('Registro exitoso.', 'success')
         return redirect(url_for('activities'))
 

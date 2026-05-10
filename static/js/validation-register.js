@@ -117,8 +117,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             
             // Save the selected category in localStorage to use it in the next page
-            localStorage.setItem('selectedCategory', category);
+            // localStorage.setItem('selectedCategory', category); // Comenta o elimina esta línea
     
         });
     }
-});           
+});

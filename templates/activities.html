@@ -130,6 +130,9 @@
         <button type="submit" class="btn btn-primary mt-2">Registrar Actividad</button>
     </form>
     </div>
+    <script>
+        const categoryUser = "{{ session.get('user_category', '') }}";
+    </script>
     <script src="{{ url_for('static', filename='js/validation-activities.js') }}"></script>
 </body>
 </html>
