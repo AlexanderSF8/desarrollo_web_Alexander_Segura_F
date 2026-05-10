@@ -112,7 +112,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
     if (form) {
         form.addEventListener("submit", function(event) {
-            event.preventDefault(); // 
             clearErrors();
 
             let haveError = false;
@@ -193,12 +192,13 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             if (haveError) {
+                event.preventDefault(); // prevent form submission if there are errors
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             }
-            // Alert for success (temporary)
-            alert("¡Actividad registrada con éxito, validaciones superadas!");
-            form.reset();
+
+            const activityType = Array.from(document.querySelectorAll('input[name=actividades]:checked')).map(el => el.value);
+            localStorage.setItem('selectedActivities', JSON.stringify(activityType));
             
         });
     }

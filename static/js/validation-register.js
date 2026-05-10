@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
     if (form) {
         form.addEventListener('submit', function(event) {
-            event.preventDefault(); 
     
             clearErrors();
 
@@ -113,14 +112,13 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             if (haveError) {
+                event.preventDefault(); // prevent form submission if there are errors
                 return;
             }
-
-            // --- EXIT: SAVE AND REDIRECT ---
-            // save the category in localStorage to use it in the next page
+            
+            // Save the selected category in localStorage to use it in the next page
             localStorage.setItem('selectedCategory', category);
-            // Redirect to the next page 
-            window.location.href = "activities.html";
+    
         });
     }
-});
+});           

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>Métricas y Estadísticas DCC</title>
 </head>
 <body class="bg-light">
@@ -93,7 +93,7 @@
         </div>
         
         <div class="text-center mt-4 mb-5">
-            <a href="index.html" class="btn btn-outline-secondary btn-lg px-5">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg px-5">
                 <i class="bi bi-arrow-left me-2"></i> Volver al inicio
             </a>
         </div>

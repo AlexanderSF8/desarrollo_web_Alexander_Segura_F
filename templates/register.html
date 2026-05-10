@@ -11,7 +11,7 @@
         
     <h2 class="mb-5 text-center">Registro de Comunidad</h2>
     
-    <form name="myForm" id="form-register" action="#" method="post" novalidate>
+    <form name="myForm" id="form-register" action="{{ url_for('register') }}" method="POST" novalidate>
 
         <div class="mb-3">
             <label for="name" class="form-label">Nombre Completo</label>
@@ -46,7 +46,7 @@
             </label>
         </div><br>
             <div class="d-flex justify-content-between mt-5 mb-3">
-                <a href="index.html" class="btn btn-outline-secondary btn-lg"><i class="bi bi-arrow-left me-2"></i> Volver al Inicio</a>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg"><i class="bi bi-arrow-left me-2"></i> Volver al Inicio</a>
                 <button id="submit-btn" type="submit" class="btn btn-primary btn-lg px-5">Continuar <i class="bi bi-arrow-right ms-2"></i></button>
             </div>
         </form>
