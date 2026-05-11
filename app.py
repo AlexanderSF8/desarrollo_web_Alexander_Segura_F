@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.utils import secure_filename
+from database.db import SessionLocal
+from database.models import Miembro
 import os
 import re
 
@@ -31,6 +33,8 @@ def register():
         phone = request.form.get('phone')
         category = request.form.get('select-department')
         terms = request.form.get('terminos')
+        region_id = request.form.get('region')
+        comuna_id = request.form.get('comuna')
 
         # Validaciones
         valid, error = validate_form_data({
@@ -38,6 +42,8 @@ def register():
             'Correo Electrónico': email,
             'Teléfono': phone,
             'Categoría': category,
+            'Region': region_id,
+            'Comuna': comuna_id,
             'Términos': terms
         })
         if not valid:

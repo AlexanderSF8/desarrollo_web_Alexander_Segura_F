@@ -67,6 +67,37 @@ const clearErrors = () => {
 
 document.addEventListener("DOMContentLoaded", function() {
 
+    // Populate region and comuna selects
+    const regionSelect = document.getElementById('region');
+    const comunaSelect = document.getElementById('comuna');
+
+    // add options to region select
+    if (typeof regiones !== 'undefined') {
+        regiones.regiones.forEach(region => {
+            let option = document.createElement('option');
+            option.value = region.numero;
+            option.text = region.nombre;
+            regionSelect.appendChild(option);
+        });
+    }
+
+    regionSelect.addEventListener('change', function() {
+        const regionId = parseInt(this.value);
+        const selectedRegion = regiones.regiones.find(r => r.numero === regionId);
+        comunaSelect.innerHTML = '<option value="" disabled selected>Seleccione una Comuna...</option>';
+        comunaSelect.disabled = false;
+
+        // add options to comuna select
+        if (selectedRegion) {
+            selectedRegion.comunas.forEach(comuna => {
+                let option = document.createElement('option');
+                option.value = comuna.id;
+                option.text = comuna.nombre;
+                comunaSelect.appendChild(option);
+            });
+        } 
+    });
+
     // catch the submit button
     const form= document.getElementById('form-register');
     

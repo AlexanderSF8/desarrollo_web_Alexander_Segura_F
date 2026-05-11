@@ -29,6 +29,20 @@
         </div>
 
         <div class="mb-3">
+            <label for="region" class="form-label">Región</label>
+            <select class="form-select" id="region" name="region" required>
+                <option value="" disabled selected>Seleccione una región...</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="comuna" class="form-label">Comuna</label>
+            <select class="form-select" id="comuna" name="comuna" disabled required>
+                <option value="" disabled selected>Seleccione una comuna...</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label for="select-department" class="form-label">Categoría</label>
             <select class="form-select" name="select-department" id="select-department">
                 <option value="">Seleccione una categoría</option>
@@ -51,6 +65,7 @@
             </div>
         </form>
         </div>
+        <script src="{{ url_for('static', filename='js/region_comuna.js') }}"></script>
         <script src="{{ url_for('static', filename='js/validation-register.js') }}"></script>
 </body>
 </html>
