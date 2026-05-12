@@ -21,7 +21,10 @@ const validateTelegram = (telegram) => {
 
 const validateURL = (url) => {
     if (!url) return true; // optional 
-    const re = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+    
+    // Regex actualizada: Permite protocolos, dominios y cualquier ruta/parámetro sin espacios
+    const re = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([^\s]*)$/i;
+    
     return re.test(url.trim());
 };
 

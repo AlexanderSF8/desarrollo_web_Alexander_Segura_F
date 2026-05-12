@@ -25,9 +25,24 @@ def validate_number(value, min_val, max_val):
 def validate_telegram(value):
     return bool(value and value.startswith('@') and len(value) >= 4)
 
-def validate_url(value):
-    if not value: return True # optional
-    return bool(re.match(r"^https?://", value))
+def validate_url(url):
+    print("\n=== DEBUG VALIDADOR URL ===")
+    print(f"URL recibida: '{url}'")
+    
+    if not url:
+        print("Veredicto: Estaba vacía (Pasa como True)")
+        print("===========================\n")
+        return True
+    
+    patron = re.compile(r"^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([^\s]*)$", re.IGNORECASE)
+    hizo_match = patron.match(url.strip())
+    
+    print(f"¿Pasó la prueba Regex?: {bool(hizo_match)}")
+    print("===========================\n")
+    
+    if hizo_match:
+        return True
+    return False
 
 def validate_file(file):
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "mp4", "avi"}
@@ -54,7 +69,7 @@ def validate_registro_miembro(nombre, email, telefono, categoria, comuna_id):
     categorias_validas = ['estudiante', 'funcionario', 'academico']
     v_categoria = categoria in categorias_validas
     
-    v_comuna = validate_number(comuna_id, 1, 346) 
+    v_comuna = validate_number(comuna_id, 1, 999999) 
 
     return all([v_nombre, v_email, v_telefono, v_categoria, v_comuna])
 

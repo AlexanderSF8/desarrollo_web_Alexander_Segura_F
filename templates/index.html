@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Portada</title>
-</head>
-<body>
-    <main class="portada"> 
-        <h1>Bienvenido</h1>
-        <p>Selecciona una opción para continuar</p>
-        <div class="d-grid gap-3 mt-4">
-            <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('register') }}">Registrarse</a>
-            <hr class="border border-secondary border-2 opacity-25 my-0">
-            <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('list_members') }}">Listado</a>
-            <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('statistics') }}">Estadística</a>           
-        </div>
-    </main>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Portada{% endblock %}
+
+{% block content %}
+<main class="portada"> 
+    <h1>Bienvenido</h1>
+    <p>Selecciona una opción para continuar</p>
+    <div class="d-grid gap-3 mt-4">
+        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('register') }}">Registrarse</a>
+        <hr class="border border-secondary border-2 opacity-25 my-0">
+        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('list_members') }}">Listado</a>
+        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('statistics') }}">Estadística</a>           
+    </div>
+</main>
+{% endblock %}

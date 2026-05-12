@@ -1,186 +1,122 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Listado de Comunidad DCC</title>
-</head>
-<body class="bg-light">
+{% extends "base.html" %}
 
-    <div class="container my-5">
-        <h2 class="mb-4 text-center">Directorio de la Comunidad</h2>
+{% block title %}Listado de Comunidad DCC{% endblock %}
 
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <form id="filter-form" class="row g-3">
-                    
-                    <div class="col-md-5">
-                        <label for="search-input" class="form-label">Buscar miembro</label>
-                        <input type="text" class="form-control" id="search-input" placeholder="Nombre, email, o @telegram...">
-                    </div>
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Directorio de la Comunidad</h2>
 
-                    <div class="col-md-4">
-                        <label for="filter-type" class="form-label">Filtrar por Categoría</label>
-                        <select class="form-select" id="filter-type">
-                            <option value="todos">Todos</option>
-                            <option value="estudiante">Estudiantes</option>
-                            <option value="docente">Académicos / Docentes</option>
-                            <option value="funcionario">Funcionarios</option>
-                        </select>
-                    </div>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form id="filter-form" class="row g-3">
+                
+                <div class="col-md-5">
+                    <label for="search-input" class="form-label">Buscar miembro</label>
+                    <input type="text" class="form-control" id="search-input" placeholder="Nombre, email, o @telegram...">
+                </div>
 
-                    <div class="col-md-3">
-                        <label for="sort-order" class="form-label">Ordenar por</label>
-                        <select class="form-select" id="sort-order">
-                            <option value="az">Nombre (A - Z)</option>
-                            <option value="za">Nombre (Z - A)</option>
-                        </select>
-                    </div>
+                <div class="col-md-4">
+                    <label for="filter-type" class="form-label">Filtrar por Categoría</label>
+                    <select class="form-select" id="filter-type">
+                        <option value="todos">Todos</option>
+                        <option value="estudiante">Estudiantes</option>
+                        <option value="docente">Académicos / Docentes</option>
+                        <option value="funcionario">Funcionarios</option>
+                    </select>
+                </div>
 
-                </form>
-            </div>
+                <div class="col-md-3">
+                    <label for="sort-order" class="form-label">Ordenar por</label>
+                    <select class="form-select" id="sort-order">
+                        <option value="az">Nombre (A - Z)</option>
+                        <option value="za">Nombre (Z - A)</option>
+                    </select>
+                </div>
+
+            </form>
         </div>
-
-        <div class="row" id="members-grid">
-
-            <div class="col-md-6 mb-4 member-card" data-type="estudiante" data-name="Ana Rojas">
-                <div class="card h-100 shadow-sm border-primary border-top border-3">
-                    <div class="card-body">
-                        <span class="badge bg-primary mb-2">Estudiante</span>
-                        <h3 class="card-title fs-5 mb-1">Ana Rojas</h3>
-                        <p class="text-muted small mb-3"><i class="bi bi-envelope-fill me-1"></i>ana.rojas@ejemplo.cl  &nbsp;|&nbsp; <i class="bi bi-whatsapp text-success mt-1"></i> 569 1234 5678</p>
-                        <p class="card-text"><strong>Telegram:</strong> @ana_r</p>
-                        <p class="card-text"><strong>Ingreso:</strong> 2023 (Pregrado)</p>
-                        <div class=" mb-3">
-                            <p class=" fw-bold mb-1">Actividades:</p>
-                            <span class="badge rounded-pill border text-dark bg-light"> Artística</span>
-                            <span class="badge rounded-pill border text-dark bg-light"> Deportiva</span>
-                        </div>
-                        <p class="small mb-3">
-                            <i class="bi bi-calendar-check me-1"></i> 3 días/semana &nbsp;|&nbsp; 
-                            <i class="bi bi-clock me-1"></i> 2.5 hrs/día
-                        </p>
-                        <p class="small mb-2"><strong>Descripción:</strong> Taller de pintura en acuarela y natación en el horario libre de la FCFM.</p> 
-                        <p class="small fw-bold mb-1">Evidencia visual:</p>
-                        <div class="text-center">
-                            <img src="https://portaluchile.uchile.cl//.imaging/default/dam/imagenes/EIC/imagenes-contenidos-generales/123955_piscina_L/jcr:content.jpg" 
-                            class="img-fluid rounded shadow-sm member-card-img" alt="Foto de actividad">
-                        </div><br>
-                        <div class="text-center">
-                            <img src="https://www.libreriameiggs.cl/cdn/shop/articles/Pinturas_con_acuarela.jpg?v=1718982497" 
-                            class="img-fluid rounded shadow-sm member-card-img" alt="Foto de actividad">
-                        </div><br>
-                        <a href="https://instagram.com/cd_anakena/#" target="_blank" class="btn btn-outline-primary btn-sm w-100">
-                            <i class="bi bi-link-45deg"></i> Ver enlace de actividad
-                        </a>
-                        
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-4 member-card" data-type="estudiante" data-name="Luis Pérez">
-                <div class="card h-100 shadow-sm border-primary border-top border-3">
-                    <div class="card-body">
-                        <span class="badge bg-primary mb-2">Estudiante</span>
-                        <h3 class="card-title fs-5 mb-1">Luis Pérez</h3>
-                        <p class="text-muted small mb-3"><i class="bi bi-envelope-fill me-1"></i>luis.perez@ejemplo.cl &nbsp;|&nbsp; <i class="bi bi-whatsapp text-success mt-1"></i> 569 8765 4321</p>
-                        <p class="card-text"><strong>Telegram:</strong> @lperez_99</p>
-                        <p class="card-text"><strong>Ingreso:</strong> 2021 (Postgrado)</p>
-                        <div class=" mb-3">
-                            <p class=" fw-bold mb-1">Actividades:</p>
-                            <span class="badge rounded-pill border text-dark bg-light">Tecnológica</span>
-                        </div>
-                        <p class="small mb-3">
-                            <i class="bi bi-calendar-check me-1"></i> 3 días/semana &nbsp;|&nbsp; 
-                            <i class="bi bi-clock me-1"></i> 2.5 hrs/día
-                        </p>
-                        <p class="small mb-2"><strong>Descripción:</strong> Juego y desarrollo de videojuegos, ya sea por la Universidad y/o cuenta propia</p> 
-                        <p class="small fw-bold mb-1">Evidencia visual:</p>
-                        <div class="text-center">
-                            <img src="https://www.bbva.com/wp-content/uploads/2017/12/video-juegos-ordenador-diseno-desarrollo-programador-BBVA-1920x1080.jpg" class="img-fluid rounded shadow-sm member-card-img" alt="Foto de actividad">
-                        </div><br>
-                        <a href="https://www.instagram.com/cd_anakena/# " target="_blank" class="btn btn-outline-primary btn-sm w-100">
-                            <i class="bi bi-link-45deg"></i> Ver enlace de actividad
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-4 member-card" data-type="docente" data-name="María González">
-                <div class="card h-100 shadow-sm border-success border-top border-3">
-                    <div class="card-body">
-                        <span class="badge bg-success mb-2">Académico</span>
-                        <h3 class="card-title fs-5 mb-1">Dra. María González</h3>
-                        <p class="text-muted small mb-3"><i class="bi bi-envelope-fill me-1"></i>mgonzalez@dcc.cl &nbsp;|&nbsp; <i class="bi bi-whatsapp text-success mt-1"></i> 569 1122 3344</p>
-                        <p class="card-text"><strong>Investigación:</strong> Inteligencia Artificial</p>
-                        <p class="card-text"><strong>Cursos:</strong> Bases de Datos, Machine Learning</p>
-                        <div class=" mb-3">
-                            <p class=" fw-bold mb-1">Actividades:</p>
-                            <span class="badge rounded-pill border text-dark bg-light">Sociales</span>
-                        </div>
-                        <p class="small mb-3">
-                            <i class="bi bi-calendar-check me-1"></i> 5 días/semana &nbsp;|&nbsp; 
-                            <i class="bi bi-clock me-1"></i> 3 hrs/día
-                        </p>
-                        <p class="small mb-2"><strong>Descripción:</strong> soy jefa de sindicato en los proyectos de mi comuna</p> 
-                        <p class="small fw-bold mb-1">Evidencia visual:</p>
-                        <div class="text-center">
-                            <img src="https://www.shutterstock.com/image-vector/giant-hand-holding-tiny-business-260nw-2135676263.jpg" class="img-fluid rounded shadow-sm member-card-img" alt="Foto de actividad">
-                        </div><br>
-                        <a href="https://www.instagram.com/cd_anakena/#" target="_blank" class="btn btn-outline-primary btn-sm w-100">
-                            <i class="bi bi-link-45deg"></i> Ver enlace de actividad
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-4 member-card" data-type="funcionario" data-name="Carlos Soto">
-                <div class="card h-100 shadow-sm border-secondary border-top border-3">
-                    <div class="card-body">
-                        <span class="badge bg-secondary mb-2">Funcionario</span>
-                        <h3 class="card-title fs-5 mb-1">Carlos Soto</h3>
-                        <p class="text-muted small mb-3"><i class="bi bi-envelope-fill me-1"></i>csoto@dcc.cl &nbsp;|&nbsp;  <i class="bi bi-whatsapp text-success mt-1"></i> 569 5566 7788</p>
-                        <p class="card-text"><strong>Área:</strong> Soporte TI</p>
-                        <p class="card-text"><strong>Cargo:</strong> Jefe de Redes</p>
-                        <div class=" mb-3">
-                            <p class=" fw-bold mb-1">Actividades:</p>
-                            <span class="badge rounded-pill border text-dark bg-light">Recreativa</span>
-                        </div>
-                        <p class="small mb-3">
-                            <i class="bi bi-calendar-check me-1"></i> 2 días/semana &nbsp;|&nbsp; 
-                            <i class="bi bi-clock me-1"></i> 4 hrs/día
-                        </p>
-                        <p class="small mb-2"><strong>Descripción:</strong> Participo en un acto teatral </p> 
-                        <p class="small fw-bold mb-1">Evidencia visual:</p>
-                        <div class="text-center">
-                            <img src="https://www.tipicochileno.cl/wp-content/uploads/2024/05/G_C-teatro.jpg" class="img-fluid rounded shadow-sm member-card-img" alt="Foto de actividad">
-                        </div><br>
-                        <a href="https://www.instagram.com/cd_anakena/#" target="_blank" class="btn btn-outline-primary btn-sm w-100">
-                            <i class="bi bi-link-45deg"></i> Ver enlace de actividad
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <nav aria-label="Navegación de páginas">
-            <ul class="pagination justify-content-end mt-4" id="pagination-controls">
-                <li class="page-item disabled">
-                    <a class="page-link" role="button" tabindex="-1" aria-disabled="true">Anterior</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Siguiente</a>
-                </li>
-            </ul>
-        </nav>
-
     </div>
-    <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg"><i class="bi bi-arrow-left me-2"></i> Volver al Inicio</a>
-    <script src="{{ url_for('static', filename='js/validation-list.js') }}"></script>
 
-</body>
-</html>
+    <div class="row" id="members-grid">
+
+        {% for member in members %}
+        <div class="col-md-6 mb-4 member-card" data-type="{{ member.category }}" data-name="{{ member.name }}">
+            {% set border_color = 'border_primary' %}
+            {% if member.category =='academico' %}{% set border_color = 'border-success' %}{% endif %}
+            {% if member.category =='funcionario' %}{% set border_color = 'border-secondary' %}{% endif %}
+
+            <div class="card h-100 shadow-sm {{border_color}} border-top border-3">
+                <div class="card-body">
+                    {% set badge_color ='bg-primary' %}
+                    {% if member.category =='academico' %}{% set badge_color = 'bg-success' %}{% endif %}
+                    {% if member.category =='funcionario' %}{% set badge_color = 'bg-secondary' %}{% endif %}
+                    <span class="badge {{badge_color}} mb-2">{{ member.category|capitalize }}</span>
+
+                    <h3 class="card-title fs-5 mb-1">{{ member.name }}</h3>
+                    <p class="text-muted small mb-3">
+                        <i class="bi bi-envelope-fill me-1"></i>{{ member.email }} &nbsp;|&nbsp; 
+                        <i class="bi bi-whatsapp text-success mt-1"></i> {{ member.phone }}
+                    </p>
+                    {% if member.category == 'estudiante' %}
+                        <p class="card-text"><strong>Telegram:</strong> {{ member.telegram }}</p>
+                        <p class="card-text"><strong>Ingreso:</strong> {{ member.entry_year }}</p>
+                    {% elif member.category == 'academico' %}
+                        <p class="card-text"><strong>Investigación:</strong> {{ member.research_area }}</p>
+                        <p class="card-text"><strong>Cursos:</strong> {{ member.courses }}</p>
+                    {% elif member.category == 'funcionario' %}
+                        <p class="card-text"><strong>Área:</strong> {{ member.department }}</p>
+                        <p class="card-text"><strong>Cargo:</strong> {{ member.role }}</p>
+                    {% endif %}
+
+                    {% for activity in member.activities %}
+                        <div class="mb-3 mt-3 border-top pt-3">
+                            <p class="fw-bold mb-1">Actividades:</p>
+                            {% for activity_type in activity.types_list %}
+                                <span class="badge rounded-pill border text-dark bg-light">{{ activity_type | capitalize }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <p class="small mb-3">
+                            <i class="bi bi-calendar-check me-1"></i> {{ activity.days_per_week }} días/semana &nbsp;|&nbsp; 
+                            <i class="bi bi-clock me-1"></i> {{ activity.hours_per_day }} hrs/día
+                        </p>
+                        <p class="small mb-2"><strong>Descripción:</strong> {{ activity.description }}</p> 
+
+                        {% if activity.photos %}
+                            <p class="small fw-bold mb-1">Evidencia visual:</p>
+                            {% for photo in activity.photos %}
+                                <div class="text-center mb-2">
+                                    <img src="{{ url_for('static', filename='uploads/' + photo.filename) }}" class="img-fluid rounded shadow-sm member-card-img" alt="Foto de actividad">
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if activity.link %}
+                            <a href="{{ activity.link }}" target="_blank" class="btn btn-outline-primary btn-sm w-100 mt-2">
+                                <i class="bi bi-link"></i> Ver enlace de actividad
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center my-5">
+            <h4 class="text-muted">No se encontraron miembros registrados.</h4>
+        </div>
+        {% endfor %}
+    </div>
+    <nav aria-label="Navegación de páginas">
+        <ul class="pagination justify-content-end mt-4" id="pagination-controls"></ul>
+    </nav>
+</div>
+
+<div class="container d-flex justify-content-end mt-4 mb-5">
+    <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg">
+        <i class="bi bi-arrow-left me-2"></i> Volver al Inicio</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/validation-list.js') }}"></script>
+{% endblock %}

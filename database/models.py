@@ -30,7 +30,7 @@ class Miembro(Base):
     comuna_id = Column(Integer, ForeignKey('comuna.id'), nullable=False)
     
     comuna = relationship("Comuna", back_populates="miembros")
-    actividades = relationship("Actividad", back_populates="miembro")
+    actividades = relationship("Actividad", back_populates="miembro", cascade="all, delete-orphan")
 
 class Actividad(Base):
     __tablename__ = 'actividad'
@@ -42,9 +42,15 @@ class Actividad(Base):
     dias_semana = Column(Integer, nullable=False)
     horas_dia = Column(Float, nullable=False)
     enlace = Column(String(300), nullable=True) # Opcional
+    año_ingreso = Column(Integer, nullable=True) 
+    telegram = Column(String(100), nullable=True)
+    cargo = Column(String(100), nullable=True)
+    area = Column(String(100), nullable=True)
+    ramos = Column(String(255), nullable=True)
+    investigacion = Column(String(255), nullable=True)
     
     miembro = relationship("Miembro", back_populates="actividades")
-    fotos = relationship("Foto", back_populates="actividad")
+    fotos = relationship("Foto", back_populates="actividad", cascade="all, delete-orphan")
 
 class Foto(Base):
     __tablename__ = 'foto'

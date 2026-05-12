@@ -78,12 +78,12 @@ def activities():
             'dias': request.form.get('dias_semana'),
             'horas': request.form.get('horas_dia'),
             'enlace': request.form.get('enlace'),
-            'año_ingreso': request.form.get('año_ingreso'),
-            'telegram': request.form.get('telegram'),
-            'cargo': request.form.get('cargo'),
-            'area': request.form.get('area'),
-            'ramos': request.form.get('ramos'),
-            'investigacion': request.form.get('investigacion')
+            'año_ingreso': request.form.get('año_ingreso') or None,  
+            'telegram': request.form.get('telegram') or None,  
+            'cargo': request.form.get('cargo') or None,  
+            'area': request.form.get('area') or None,  
+            'ramos': request.form.get('ramos') or None,  
+            'investigacion': request.form.get('investigacion') or None  
         }
         fotos = request.files.getlist('archivos')
         miembro_categoria = session.get('user_category', '')
@@ -100,7 +100,13 @@ def activities():
                 descripcion=datos_form['descripcion'],
                 dias_semana=int(datos_form['dias']),
                 horas_dia=float(datos_form['horas']),
-                enlace=datos_form['enlace']
+                enlace=datos_form['enlace'],
+                año_ingreso=datos_form['año_ingreso'],
+                telegram=datos_form['telegram'],
+                cargo=datos_form['cargo'],
+                area=datos_form['area'],
+                ramos=datos_form['ramos'],
+                investigacion=datos_form['investigacion']
             )
             db.add(nueva_actividad)
             db.commit()
@@ -134,7 +140,54 @@ def activities():
 
 @app.route('/list')
 def list_members():
-    return render_template('list.html')
+    db = SessionLocal()
+    try:
+        members_db = db.query(Miembro).all() #get all members from the database
+        members_list = []
+
+        for member in members_db:
+            activities_list = []
+            # Iterate through the activities related to this member
+            for activity in member.actividades:
+                try:
+                    type_list = json.loads(activity.tipo) # Decode the JSON string back into a Python list
+                except (json.JSONDecodeError, TypeError):
+                    type_list = []  # Fallback to an empty list if decoding fails
+
+                # format photo data
+                formatted_photos = [{'filename': foto.nombre_archivo} for foto in activity.fotos]
+                activities_list.append({
+                    'type_list': type_list,
+                    'days_per_week': activity.dias_semana,
+                    'hours_per_day': activity.horas_dia,
+                    'description': activity.descripcion,
+                    'link': activity.enlace,
+                    'photos': formatted_photos
+                })
+                # Get the first activity to extract specific profile details (if available)
+            primary_activity = member.actividades[0] if member.actividades else None
+
+            members_list.append({
+                'nombre': member.nombre,
+                'email': member.email,
+                'phone': member.telefono,
+                'category': member.categoria,
+                # Safe attribute retrieval using getattr to avoid crashes
+                'entry_year': getattr(primary_activity, 'año_ingreso', 'N/A') if primary_activity else 'N/A',
+                'telegram': getattr(primary_activity, 'telegram', 'N/A') if primary_activity else 'N/A',
+                'department': getattr(primary_activity, 'area', 'N/A') if primary_activity else 'N/A',
+                'role': getattr(primary_activity, 'cargo', 'N/A') if primary_activity else 'N/A',
+                'courses': getattr(primary_activity, 'ramos', 'N/A') if primary_activity else 'N/A',
+                'research_area': getattr(primary_activity, 'investigacion', 'N/A') if primary_activity else 'N/A',
+                'activities': activities_list
+            })
+        return render_template('list.html', members=members_list)
+    except Exception as e:
+            print(f"Error al cargar lista de miembros: {e}")
+            flash('Error al cargar la lista de miembros.', 'error')
+            return render_template('list.html', members=[])
+    finally:
+        db.close()
 
 @app.route('/statistics')
 def statistics():

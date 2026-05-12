@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Actividades</title>
-</head>
-<body>
-    <div class="caja-formulario">
+{% extends "base.html" %}
+
+{% block title %}Actividades{% endblock %}
+
+{% block content %}
+<div class="caja-formulario">
     <h2>Registro de Actividades</h2>
 
     <form id="form-activities" action="{{ url_for('activities') }}" method="POST" enctype="multipart/form-data" novalidate>
@@ -130,10 +126,12 @@
 
         <button type="submit" class="btn btn-primary mt-2">Registrar Actividad</button>
     </form>
-    </div>
-    <script>
-        const categoryUser = "{{ session.get('user_category', '') }}";
-    </script>
-    <script src="{{ url_for('static', filename='js/validation-activities.js') }}"></script>
-</body>
-</html>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const categoryUser = "{{ session.get('user_category', '') }}";
+</script>
+<script src="{{ url_for('static', filename='js/validation-activities.js') }}"></script>
+{% endblock %}

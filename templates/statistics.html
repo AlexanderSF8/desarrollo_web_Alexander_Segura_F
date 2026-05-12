@@ -1,104 +1,97 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Métricas y Estadísticas DCC</title>
-</head>
-<body class="bg-light">
+{% extends "base.html" %}
 
-    <div class="container my-5">
+{% block title %}Métricas y Estadísticas DCC{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    
+    <h2 class="mb-4 text-center">Panel de Estadísticas (Dashboard)</h2>
+
+    <div class="row mb-4">
         
-        <h2 class="mb-4 text-center">Panel de Estadísticas (Dashboard)</h2>
-
-        <div class="row mb-4">
-            
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm border-0 border-start border-primary border-4 h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h3 class="fs-6 text-muted text-uppercase mb-1">Total Miembros Registrados</h3>
-                                <p class="fs-3 fw-bold mb-0 text-primary">50</p>
-                            </div>
-                            <div class="fs-1 text-primary opacity-50">
-                                <i class="bi bi-people-fill"></i>
-                            </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 border-start border-primary border-4 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="fs-6 text-muted text-uppercase mb-1">Total Miembros Registrados</h3>
+                            <p class="fs-3 fw-bold mb-0 text-primary">50</p>
+                        </div>
+                        <div class="fs-1 text-primary opacity-50">
+                            <i class="bi bi-people-fill"></i>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm border-0 border-start border-success border-4 h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h3 class="fs-6 text-muted text-uppercase mb-1">Actividades Informadas</h3>
-                                <p class="fs-3 fw-bold mb-0 text-success">67</p>
-                            </div>
-                            <div class="fs-1 text-success opacity-50">
-                                <i class="bi bi-journal-check"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm border-0 border-start border-info border-4 h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h3 class="fs-6 text-muted text-uppercase mb-1">Prom. Horas / Semana</h3>
-                                <p class="fs-3 fw-bold mb-0 text-info">20 hrs</p>
-                            </div>
-                            <div class="fs-1 text-info opacity-50">
-                                <i class="bi bi-clock-history"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
-        <div class="row">
-
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-header bg-white pb-0 border-0 pt-3">
-                        <h3 class="card-title fs-5">Composición de la Comunidad</h3>
-                    </div>
-                    <div class="card-body text-center">
-                        <p class="text-muted small mb-3">Distribución por rol (Estudiantes, Docentes, Funcionarios)</p>
-                        <img src="https://cdn-icons-png.flaticon.com/512/3349/3349622.png" class="img-fluid rounded border" alt="Gráfico de composición de miembros">
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-header bg-white pb-0 border-0 pt-3">
-                        <h3 class="card-title fs-5">Tipos de Actividades Realizadas</h3>
-                    </div>
-                    <div class="card-body text-center">
-                        <p class="text-muted small mb-3">Cantidad de horas semanales dedicadas por tipo de actividad</p>
-                        <img src="https://edea.juntadeandalucia.es/bancorecursos/file/991c4ca1-cc1c-447e-9b01-e2c9a88d4442/1/MAT_6PRI_REA_05_V01ZIP(2).zip/IMG_MAT6PRI_REA05_GRAFBAREJEM_V01.jpg" class="img-fluid rounded border" alt="Gráfico de tipos de actividades">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 border-start border-success border-4 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="fs-6 text-muted text-uppercase mb-1">Actividades Informadas</h3>
+                            <p class="fs-3 fw-bold mb-0 text-success">67</p>
+                        </div>
+                        <div class="fs-1 text-success opacity-50">
+                            <i class="bi bi-journal-check"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        
-        <div class="text-center mt-4 mb-5">
-            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg px-5">
-                <i class="bi bi-arrow-left me-2"></i> Volver al inicio
-            </a>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 border-start border-info border-4 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="fs-6 text-muted text-uppercase mb-1">Prom. Horas / Semana</h3>
+                            <p class="fs-3 fw-bold mb-0 text-info">20 hrs</p>
+                        </div>
+                        <div class="fs-1 text-info opacity-50">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
 
-</body>
-</html>
+    <div class="row">
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white pb-0 border-0 pt-3">
+                    <h3 class="card-title fs-5">Composición de la Comunidad</h3>
+                </div>
+                <div class="card-body text-center">
+                    <p class="text-muted small mb-3">Distribución por rol (Estudiantes, Docentes, Funcionarios)</p>
+                    <img src="https://cdn-icons-png.flaticon.com/512/3349/3349622.png" class="img-fluid rounded border" alt="Gráfico de composición de miembros">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white pb-0 border-0 pt-3">
+                    <h3 class="card-title fs-5">Tipos de Actividades Realizadas</h3>
+                </div>
+                <div class="card-body text-center">
+                    <p class="text-muted small mb-3">Cantidad de horas semanales dedicadas por tipo de actividad</p>
+                    <img src="https://edea.juntadeandalucia.es/bancorecursos/file/991c4ca1-cc1c-447e-9b01-e2c9a88d4442/1/MAT_6PRI_REA_05_V01ZIP(2).zip/IMG_MAT6PRI_REA05_GRAFBAREJEM_V01.jpg" class="img-fluid rounded border" alt="Gráfico de tipos de actividades">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="text-center mt-4 mb-5">
+        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg px-5">
+            <i class="bi bi-arrow-left me-2"></i> Volver al inicio
+        </a>
+    </div>
+
+</div>
+{% endblock %}

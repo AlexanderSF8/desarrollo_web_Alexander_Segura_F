@@ -3,8 +3,9 @@
 body {
     min-height: 100vh; /* 100% de la altura de la pantalla */
     display: flex; /* Usamos Flexbox para centrar el contenido */
+    flex-direction: column; /* Alineamos los elementos en columna */
     align-items: center; /* Centrado vertical */
-    justify-content: center; /* Centrado horizontal */
+    justify-content: flex-start; /* alinea desde arriba hacia abajo */
     background-color: #f4f6f9; /* Un color de fondo suave*/
     margin: 0;
     padding: 40px 20px; /* Un poco de espacio alrededor para que no quede tan pegado a los bordes */
