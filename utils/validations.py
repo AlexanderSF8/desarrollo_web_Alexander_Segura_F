@@ -26,7 +26,7 @@ def validate_telegram(value):
     return bool(value and value.startswith('@') and len(value) >= 4)
 
 def validate_url(value):
-    if not value: return True # Es opcional en tu BD
+    if not value: return True # optional
     return bool(re.match(r"^https?://", value))
 
 def validate_file(file):
@@ -49,7 +49,7 @@ def validate_registro_miembro(nombre, email, telefono, categoria, comuna_id):
     # Validate each field using atomic validators
     v_nombre = validate_text(nombre, min_length=3)
     v_email = validate_email(email)
-    v_telefono = validate_text(telefono, min_length=8) # Asumiendo un mínimo para teléfonos
+    v_telefono = validate_text(telefono, min_length=8) 
     
     categorias_validas = ['estudiante', 'funcionario', 'academico']
     v_categoria = categoria in categorias_validas
@@ -73,7 +73,7 @@ def validate_datos_actividad(categoria, datos_form, archivos):
     if not validate_all: 
         return False
 
-    # 2. Validaciones Específicas por Categoría
+    # validation specific to category
     if categoria == 'estudiante':
         v_año = validate_number(datos_form.get('año_ingreso'), 2000, 2026)
         v_tele = validate_telegram(datos_form.get('telegram'))
