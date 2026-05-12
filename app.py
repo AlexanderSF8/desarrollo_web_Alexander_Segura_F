@@ -142,7 +142,8 @@ def activities():
             return redirect(url_for('activities'))
         finally:
             db.close()
-    return render_template('activities.html')
+    categoria_user = session.get('user_category', '')  
+    return render_template('activities.html', categoria=categoria_user)
 
 @app.route('/list')
 def list_members():

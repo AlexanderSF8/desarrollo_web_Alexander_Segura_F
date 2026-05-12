@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
     teachingBlock.classList.add('d-none');
 
     // Get the category from localStorage (set in the previous page)
-    const categoryUser = localStorage.getItem('selectedCategory'); 
+    const categoryUser = document.getElementById('user-category').value;
 
     // Show the corresponding block based on the category
     if (categoryUser === 'estudiante') studentBlock.classList.remove('d-none');
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 showError('archivos', 'Debe subir al menos un archivo (foto/video).');
                 haveError = true;
             }
-
+            
             const enlace = document.getElementById('enlace').value;
             if (enlace && !validateURL(enlace)) {
                 showError('enlace', 'Si incluye un enlace, debe ser una URL válida (ej: https://...).');
