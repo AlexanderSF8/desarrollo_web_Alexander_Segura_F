@@ -2,7 +2,9 @@ import flask
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.utils import secure_filename
 from database.db import SessionLocal
-from database.models import Miembro, Actividad, Foto
+from database.models import Comuna, Miembro, Actividad, Foto
+from sqlalchemy import desc
+from sqlalchemy.orm import joinedload
 import os
 import re
 import json
@@ -16,7 +18,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    db_session = SessionLocal()
+    last_members=db_session.query(Miembro)\
+    .options(joinedload(Miembro.comuna).joinedload(Comuna.region))\
+    .order_by(desc(Miembro.fecha_registro))\
+    .limit(5)\
+    .all()
+    return render_template('index.html', members=last_members)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

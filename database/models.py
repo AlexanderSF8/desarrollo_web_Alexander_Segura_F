@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Text, DateTime
 from sqlalchemy.orm import relationship
 from database.db import Base
+from sqlalchemy.sql import func
 
 # --- Table region y comuna ---
 class Region(Base):
@@ -28,6 +29,7 @@ class Miembro(Base):
     telefono = Column(String(15), nullable=False)
     categoria = Column(String(50), nullable=False) # estudiante, funcionario o academico
     comuna_id = Column(Integer, ForeignKey('comuna.id'), nullable=False)
+    fecha_registro = Column(DateTime, server_default=func.now())
     
     comuna = relationship("Comuna", back_populates="miembros")
     actividades = relationship("Actividad", back_populates="miembro", cascade="all, delete-orphan")
