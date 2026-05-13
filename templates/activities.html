@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Actividades{% endblock %}
+
+{% block content %}
+<div class="caja-formulario">
+    <h2>Registro de Actividades</h2>
+
+    <form id="form-activities" action="{{ url_for('activities') }}" method="POST" enctype="multipart/form-data" novalidate>
+
+        <!-- required for estudiantes -->
+        <div id="student-activities" class="d-none"> <!-- d-none -->
+            <div class="mb-3"> 
+                <label class="form-label">Nivel académico</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="nivel_academico" id="pregrado" value="pregrado">
+                    <label class="form-check-label" for="pregrado">
+                        Pregrado
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="nivel_academico" id="postgrado" value="postgrado">
+                    <label class="form-check-label" for="postgrado">
+                        Postgrado
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-3"> 
+                <label for="año_ingreso" class="form-label">Año de Ingreso a la Institución</label>
+                <input type="number" class="form-control" name="año_ingreso" id="año_ingreso" placeholder="2023">
+            </div>
+
+            <div class="mb-3">
+                <label for="telegram" class="form-label">Nombre de Telegram</label>
+                <input type="text" class="form-control" name="telegram" id="telegram" placeholder="@usuarioX">
+            </div>
+        </div>
+
+        <!-- required for staff -->
+        <div id="staff-activities" class="d-none"> <!-- d-none -->
+             <div class="mb-3">
+                <label for="cargo" class="form-label">Cargo</label>
+                <input type="text" class="form-control" name="cargo" id="cargo" placeholder="secretaria docente, jefe, supervisor ...">
+            </div>
+
+             <div class="mb-3">
+                <label for="area" class="form-label">Área de Trabajo</label>
+                <input type="text" class="form-control" name="area" id="area" placeholder="soporte, finanzas ...">
+            </div>
+        </div>
+
+        <!-- required for teaching -->
+        <div id="teaching-activities" class="d-none"> <!-- d-none -->
+             <div class="mb-3">
+                <label for="ramos" class="form-label">Cursos o Ramos que dicta</label>
+                <input type="text" class="form-control" name="ramos" id="ramos" placeholder="Bases de Datos, Sistemas Operativos...">
+            </div>
+
+             <div class="mb-3">
+                <label for="investigacion" class="form-label">Area de Investigación</label>
+                <input type="text" class="form-control" name="investigacion" id="investigacion" placeholder="Inteligencia Artificial, Machine Learning ...">
+            </div>
+        </div>
+
+        <input type="hidden" id="user-category" value="{{ categoria }}">
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN COMÚN: OBLIGATORIA PARA TODOS      -->
+        <!-- ========================================== -->
+
+        <div class="form-group">
+            <label class="form-label mb-2">¿Qué tipo de actividades realizas?</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="actividades" id="act_artistica" value="artistica">
+                <label class="form-check-label" for="act_artistica">Artística</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="actividades" id="act_deportiva" value="deportiva">
+                <label class="form-check-label" for="act_deportiva">Deportiva</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="actividades" id="act_tecnologica" value="tecnologica">
+                <label class="form-check-label" for="act_tecnologica">Tecnológica</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="actividades" id="act_sociales" value="sociales">
+                <label class="form-check-label" for="act_sociales">Sociales</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="actividades" id="act_recreativa" value="recreativa">
+                <label class="form-check-label" for="act_recreativa">Recreativa</label>
+            </div>
+        </div><br>
+
+        <div class="mb-4">
+            <label for="activity" class="form-label">Descripción de la Actividad</label>
+            <textarea class="form-control" name="activity" rows="3" id="activity" placeholder="Describe brevemente lo que haces"></textarea>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <label for="dias_semana" class="form-label">Frecuencia (días por semana)</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="dias_semana" id="dias_semana" min="1" max="7" placeholder="3">
+                    <span class="input-group-text">días por semana</span>
+                </div>
+            </div>
+            <div class="col-md-6 mt3 mt-md-0">
+                <label for="horas_dia" class="form-label">Tiempo de dedicación (horas por día)</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="horas_dia" id="horas_dia" min="0.5" max="24" step="0.5" placeholder="2.5">
+                    <span class="input-group-text">horas por día</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="archivos" class="form-label">Fotos o Videos realizando actividad</label>
+            <input class="form-control" type="file" id="archivos" name="archivos" accept="image/*,video/*" multiple required>
+        </div>
+
+        <div class="mb-4">
+            <label for="enlace" class="form-label">Enlace de la actividad</label>
+            <input type="url" class="form-control" name="enlace" id="enlace" placeholder="https://www.instagram.com/usuarioX/actividadY">
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2">Registrar Actividad</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const categoryUser = "{{ session.get('user_category', '') }}";
+</script>
+<script src="{{ url_for('static', filename='js/validation-activities.js') }}"></script>
+{% endblock %}
