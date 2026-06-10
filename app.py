@@ -1,9 +1,8 @@
-import flask
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from werkzeug.utils import secure_filename
 from database.db import SessionLocal
 from database.models import Comuna, Miembro, Actividad, Foto
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 from sqlalchemy.orm import joinedload
 import os
 import re
