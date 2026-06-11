@@ -7,10 +7,10 @@
     <h1>Bienvenido</h1>
     <p>Selecciona una opción para continuar</p>
     <div class="d-grid gap-3 mt-4">
-        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('register') }}">Registrarse</a>
+        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('views.register') }}">Registrarse</a>
         <hr class="border border-secondary border-2 opacity-25 my-0">
-        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('list_members') }}">Listado</a>
-        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('statistics') }}">Estadística</a>           
+        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('views.list_members') }}">Listado</a>
+        <a class="btn btn-primary btn-lg py-3 fs-4" href="{{ url_for('views.statistics') }}">Estadística</a>           
     </div>
 </main>
 
