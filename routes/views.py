@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, current_app
 from database.db import SessionLocal
 from database.models import Comuna, Miembro, Actividad, Foto
 from sqlalchemy import desc
@@ -34,7 +34,7 @@ def register():
         # Validations
         if not validate_registro_miembro(name, email, phone, category, comuna_id):
             flash('Error en los datos de registro. Revisa el formato de los campos.', 'error')
-            return redirect(url_for('register'))
+            return redirect(url_for('views.register'))
 
         db = SessionLocal()
         # create a new member instance and add it to the database
@@ -54,13 +54,13 @@ def register():
             session['miembro_id'] = nuevo_miembro.id
 
             flash('Registro exitoso. Ahora completa este apartado', 'success')
-            return redirect(url_for('activities'))
+            return redirect(url_for('views.activities'))
         except Exception as e:
             # error asociate with email uniqueness constraint
             db.rollback()
             flash('Error al registrar el miembro, puede que el correo ya esté registrado.', 'error')
             print(f"Error al registrar miembro: {e}")
-            return redirect(url_for('register'))
+            return redirect(url_for('views.register'))
         finally:
             db.close()
 
@@ -70,7 +70,7 @@ def register():
 def activities():
     if 'miembro_id' not in session:
         flash('Acceso Denegado: debes registrarte primero.', 'error')
-        return redirect(url_for('register'))
+        return redirect(url_for('views.register'))
 
     miembro_id = session.get('miembro_id')
 
@@ -92,7 +92,7 @@ def activities():
 
         if not validate_datos_actividad(miembro_categoria, datos_form, fotos):
             flash('Error en los datos o archivos ingresados.', 'error')
-            return redirect(url_for('activities'))
+            return redirect(url_for('views.activities'))
 
         db = SessionLocal()
         try:
@@ -116,7 +116,7 @@ def activities():
             for foto in fotos:
                 if foto and foto.filename:
                     filename = secure_filename(foto.filename)
-                    file_path = os.path.join(views_bp.config['UPLOAD_FOLDER'], filename)
+                    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
                     foto.save(file_path)
 
                     nueva_foto = Foto(
@@ -128,13 +128,13 @@ def activities():
             db.commit()
             flash('Actividad registrada exitosamente.', 'success')
             session.pop('miembro_id', None)  # Clear the session after successful registration
-            return redirect(url_for('index'))
+            return redirect(url_for('views.index'))
         
         except Exception as e:
             db.rollback()
             flash('Error al registrar la actividad. Por favor, inténtalo de nuevo.', 'error')
             print(f"Error al registrar actividad: {e}")
-            return redirect(url_for('activities'))
+            return redirect(url_for('views.activities'))
         finally:
             db.close()
     categoria_user = session.get('user_category', '')  
