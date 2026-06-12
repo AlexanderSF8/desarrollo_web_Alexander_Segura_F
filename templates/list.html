@@ -45,7 +45,11 @@
             {% if member.category =='academico' %}{% set border_color = 'border-success' %}{% endif %}
             {% if member.category =='funcionario' %}{% set border_color = 'border-secondary' %}{% endif %}
 
-            <div class="card h-100 shadow-sm {{border_color}} border-top border-3">
+            <div class="card h-100 shadow-sm {{border_color}} border-top border-3"
+                        style="cursor: pointer; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='scale(1.02)'"
+                        onmouseout="this.style.transform='scale(1)'"
+                        onclick="window.location.href='{{ url_for('views.member_profile', id=member.id) }}';">
                 <div class="card-body">
                     {% set badge_color ='bg-primary' %}
                     {% if member.category =='academico' %}{% set badge_color = 'bg-success' %}{% endif %}
@@ -92,7 +96,7 @@
                         {% endif %}
 
                         {% if activity.link %}
-                            <a href="{{ activity.link }}" target="_blank" class="btn btn-outline-primary btn-sm w-100 mt-2">
+                            <a href="{{ activity.link }}" target="_blank" class="btn btn-outline-primary btn-sm w-100 mt-2" onclick="event.stopPropagation();">
                                 <i class="bi bi-link"></i> Ver enlace de actividad
                             </a>
                         {% endif %}

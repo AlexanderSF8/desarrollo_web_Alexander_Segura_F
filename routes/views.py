@@ -170,6 +170,7 @@ def list_members():
             primary_activity = member.actividades[0] if member.actividades else None
 
             members_list.append({
+                'id': member.id,
                 'nombre': member.nombre,
                 'email': member.email,
                 'phone': member.telefono,
@@ -194,3 +195,58 @@ def list_members():
 @views_bp.route('/statistics')
 def statistics():
     return render_template('statistics.html')
+
+@views_bp.route('/miembro/<int:id>')
+def member_profile(id):
+    db = SessionLocal()
+    try:
+        # search the member by ID
+        member = db.query(Miembro).filter(Miembro.id == id).first()
+        
+        if not member:
+            flash('Miembro no encontrado.', 'error')
+            return redirect(url_for('views.list_members'))
+
+        # build the activities list for the member profile 
+        activities_list = []
+        for activity in member.actividades:
+            try:
+                type_list = json.loads(activity.tipo)
+            except (json.JSONDecodeError, TypeError):
+                type_list = []
+
+            formatted_photos = [{'filename': foto.nombre_archivo} for foto in activity.fotos]
+            activities_list.append({
+                'type_list': type_list,
+                'days_per_week': activity.dias_semana,
+                'hours_per_day': activity.horas_dia,
+                'description': activity.descripcion,
+                'link': activity.enlace,
+                'photos': formatted_photos
+            })
+        
+        primary_activity = member.actividades[0] if member.actividades else None
+
+        member_data = {
+            'id': member.id,  
+            'nombre': member.nombre,
+            'email': member.email,
+            'phone': member.telefono,
+            'category': member.categoria,
+            'entry_year': getattr(primary_activity, 'año_ingreso', 'N/A') if primary_activity else 'N/A',
+            'telegram': getattr(primary_activity, 'telegram', 'N/A') if primary_activity else 'N/A',
+            'department': getattr(primary_activity, 'area', 'N/A') if primary_activity else 'N/A',
+            'role': getattr(primary_activity, 'cargo', 'N/A') if primary_activity else 'N/A',
+            'courses': getattr(primary_activity, 'ramos', 'N/A') if primary_activity else 'N/A',
+            'research_area': getattr(primary_activity, 'investigacion', 'N/A') if primary_activity else 'N/A',
+            'activities': activities_list
+        }
+
+        # render the member profile template with the member data
+        return render_template('member_profile.html', member=member_data)
+    except Exception as e:
+        print(f"Error al cargar perfil del miembro: {e}")
+        flash('Error al cargar el perfil.', 'error')
+        return redirect(url_for('views.list_members'))
+    finally:
+        db.close()
