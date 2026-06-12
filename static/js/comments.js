@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // Catch DOM elements
-    const memberId = document.getElementById('miembro_id').value;
+    const actividadId = document.getElementById('actividad_id').value;
     const btnToggle = document.getElementById('btn-toggle-form');
     const formContainer = document.getElementById('comment-form-container');
     const btnCancel = document.getElementById('btn-cancel-comment');
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     
     const loadComments = () => {
-        fetch(`/api/comments/${memberId}`)
+        fetch(`/api/comments/${actividadId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al conectar con la API');
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="card-body">
                                 <p class="mb-2">${comment.texto}</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted"><i class="bi bi-person-fill"></i> Anónimo</small>
+                                    <small class="text-muted"><i class="bi bi-person-fill"></i> ${comment.nombre}</small>
                                     <small class="text-muted"><i class="bi bi-clock"></i> ${comment.fecha}</small>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial load of comments when the page is ready
     loadComments();
 
-    const commentForm = document.getElementById('comment-form');
+    const commentForm = document.getElementById('form-comment');
     commentForm.addEventListener('submit', (event) => {
         event.preventDefault();  // stop the form from submitting
 
@@ -103,15 +103,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // VALIDATE NAME (LENGTH 3-80)
         if (nameValue.length > 80 || nameValue.length < 3) {
             nameInput.classList.add('is-invalid');
-            errorname.innerText = "El nombre debe tener entre 3 y 80 caracteres.";
+            errorName.innerText = "El nombre debe tener entre 3 y 80 caracteres.";
             errorName.style.display = 'block';
             isValid = false;
         }
 
-        // VALIDATE TEXT (LENGTH 5-400)
-        if (textValue.length > 400 || textValue.length < 5) {
+        // VALIDATE TEXT (LENGTH 5-300)
+        if (textValue.length > 300 || textValue.length < 5) {
             textInput.classList.add('is-invalid');
-            errorText.innerText = "El comentario debe tener entre 5 y 400 caracteres.";
+            errorText.innerText = "El comentario debe tener entre 5 y 300 caracteres.";
             errorText.style.display = 'block';
             isValid = false;
         }
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSubmit.disabled = true;
 
         const payload = {
-            miembro_id: memberId,
+            actividad_id: actividadId,
             nombre: nameValue,
             texto: textValue
         };
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(res => {
             if (res.status === 201 || res.status === 200) {
                 
-                formComment.reset();
+                commentForm.reset();
                 formContainer.classList.add('d-none');
                 btnToggle.classList.remove('d-none');
             

@@ -78,7 +78,7 @@
                 </div>
                 <div class="card-body">
                     <form id="form-comment" novalidate>
-                        <input type="hidden" id="miembro_id" value="{{ member.id }}">
+                        <input type="hidden" id="actividad_id" value="{{ member.activities[0].id if member.activities else '' }}">
 
                         <div class="mb-3">
                             <label for="comment-name" class="form-label">Tu nombre</label>

@@ -217,6 +217,7 @@ def member_profile(id):
 
             formatted_photos = [{'filename': foto.nombre_archivo} for foto in activity.fotos]
             activities_list.append({
+                'id': activity.id,
                 'type_list': type_list,
                 'days_per_week': activity.dias_semana,
                 'hours_per_day': activity.horas_dia,
