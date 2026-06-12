@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil de {{ member.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    
+    <div class="mb-4">
+        <a href="{{ url_for('views.list_members') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Volver al listado
+        </a>
+    </div>
+
+    <div class="row">
+        
+        <div class="col-md-4 mb-4">
+            
+            {% set border_color = 'border-primary' %}
+            {% if member.category == 'academico' %}{% set border_color = 'border-success' %}{% endif %}
+            {% if member.category == 'funcionario' %}{% set border_color = 'border-secondary' %}{% endif %}
+
+            <div class="card shadow-sm {{ border_color }} border-top border-3 sticky-top" style="top: 20px;">
+                <div class="card-body">
+                    {% set badge_color = 'bg-primary' %}
+                    {% if member.category == 'academico' %}{% set badge_color = 'bg-success' %}{% endif %}
+                    {% if member.category == 'funcionario' %}{% set badge_color = 'bg-secondary' %}{% endif %}
+                    <span class="badge {{ badge_color }} mb-2">{{ member.category|capitalize }}</span>
+
+                    <h1 class="card-title fs-5 mb-1">{{ member.nombre }}</h1>
+                    <p class="text-muted small mb-3">
+                        <i class="bi bi-envelope-fill me-1"></i>{{ member.email }}<br>
+                        <i class="bi bi-whatsapp text-success mt-1"></i> {{ member.phone }}
+                    </p>
+
+                    {% if member.category == 'estudiante' %}
+                        <p class="card-text small"><strong>Telegram:</strong> {{ member.telegram }}</p>
+                        <p class="card-text small"><strong>Ingreso:</strong> {{ member.entry_year }}</p>
+                    {% elif member.category == 'academico' %}
+                        <p class="card-text small"><strong>Investigación:</strong> {{ member.research_area }}</p>
+                        <p class="card-text small"><strong>Cursos:</strong> {{ member.courses }}</p>
+                    {% elif member.category == 'funcionario' %}
+                        <p class="card-text small"><strong>Área:</strong> {{ member.department }}</p>
+                        <p class="card-text small"><strong>Cargo:</strong> {{ member.role }}</p>
+                    {% endif %}
+
+                    {% for activity in member.activities %}
+                        <div class="mb-3 mt-3 border-top pt-3">
+                            <p class="fw-bold mb-1 small">Actividades:</p>
+                            {% for activity_type in activity.type_list %}
+                                <span class="badge rounded-pill border text-dark bg-light">{{ activity_type | capitalize }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <p class="small mb-2"><strong>Descripción:</strong> {{ activity.description }}</p> 
+
+                        {% if activity.photos %}
+                            <div class="text-center mb-2">
+                                <img src="{{ url_for('static', filename='uploads/' + activity.photos[0].filename) }}" class="img-fluid rounded shadow-sm" alt="Foto">
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+                <h2 class="mb-0 fs-2"><i class="bi bi-chat-text text-primary me-2"></i>Comentarios</h2>
+                <button id="btn-toggle-form" class="btn btn-warning text-white fw-bold shadow-sm">
+                    <i class="bi bi-plus-lg"></i> Agregar
+                </button>
+            </div>
+
+            <div id="comment-form-container" class="card shadow-sm mb-4 border-warning d-none">
+                <div class="card-header bg-warning text-white fw-bold">
+                    Escribir un nuevo comentario
+                </div>
+                <div class="card-body">
+                    <form id="form-comment" novalidate>
+                        <input type="hidden" id="actividad_id" value="{{ member.activities[0].id if member.activities else '' }}">
+
+                        <div class="mb-3">
+                            <label for="comment-name" class="form-label">Tu nombre</label>
+                            <input type="text" class="form-control" id="comment-name" placeholder="Tu nombre o alias" minlength="3" maxlength="80" required>
+                            <div id="error-comment-name" class="invalid-feedback text-danger small mt-1" style="display: none;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comment-text" class="form-label">Tu comentario</label>
+                            <textarea class="form-control" id="comment-text" rows="4" placeholder="Escribe tu comentario aquí..." minlength="5" required></textarea>
+                            <div id="error-comment-text" class="invalid-feedback text-danger small mt-1" style="display: none;"></div>
+                        </div>
+                        
+                        <div id="server-error-msg" class="alert alert-danger d-none py-2 small"></div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" id="btn-cancel-comment" class="btn btn-outline-secondary">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" id="btn-submit-comment">
+                                <i class="bi bi-send me-1"></i> Publicar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="comments-list">
+                <div class="text-center text-muted my-5" id="loading-spinner">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2 small">Cargando comentarios...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/comments.js') }}"></script>
+{% endblock %}
