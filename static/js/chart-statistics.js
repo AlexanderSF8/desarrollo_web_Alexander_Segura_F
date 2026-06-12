@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const ctx2 = document.getElementById('activitiesTypeChart').getContext('2d');
             new Chart(ctx2, {
-                type: 'pie', // o 'doughnut' si quieres el centro vacío
+                type: 'pie', 
                 data: {
                     labels: tipos,
                     datasets: [{
