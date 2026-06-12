@@ -62,3 +62,46 @@ La ruta de listado consulta la totalidad de los miembros registrados junto con s
 Para la página de inicio, se diseñó una tabla dinámica que proyecta los últimos 5 miembros registrados en la comunidad.
 * **Manejo Temporal:** Se delegó la creación de marcas de tiempo al motor de base de datos mediante `server_default=func.now()` en el modelo `Miembro`, asegurando la precisión de la hora de registro (`fecha_registro`).
 * **Optimización ORM (`joinedload`):** Para proyectar la "Región" a la que pertenece el miembro, la consulta debe atravesar dos relaciones (`Miembro` -> `Comuna` -> `Region`). Para evitar el problema clásico de rendimiento de *N+1 consultas* (Lazy Loading), se implementó `joinedload` en `app.py`. Esto instruye a SQLAlchemy para que realice un *JOIN* subyacente y recupere toda la jerarquía geográfica en una única y eficiente petición a la base de datos, entregando un objeto listo para ser consumido por Jinja2.
+
+
+------------------------------------------------------------------------------------------------------
+
+# Tarea 3: Arquitectura Asíncrona, APIs y Seguridad en el Cliente
+
+En esta tercera fase, el proyecto adoptó el paradigma de desarrollo web moderno. Se migró de una arquitectura de renderizado exclusivamente desde el servidor a un modelo de "Arquitectura Híbrida", integrando un sistema de consumo de APIs en el lado del cliente. Esto permitió implementar gráficos en tiempo real y un sistema de comentarios reactivo, optimizando significativamente la experiencia de usuario (UX) al evitar la recarga completa de las páginas.
+
+### 📂 Separacion de Responsabilidad
+
+Para soportar la nueva lógica asíncrona, el monolito inicial del servidor (`app.py`) se refactorizó utilizando **Blueprints** de Flask, puesto que al agregar las nuevas funcionalidades superaria las 400 lineas.
+Se separaron las responsabilidades de la siguiente manera:
+
+* **`routes/views.py`:** Módulo dedicado exclusivamente al renderizado de interfaces. Maneja la entrega de plantillas Jinja2 (`HTML`) y establece la estructura base de la aplicación.
+* **`routes/api.py`:** Nuevo módulo que actúa como el puente de comunicación asíncrona. Opera estrictamente bajo el formato JSON, proveyendo los *endpoints* necesarios para alimentar los gráficos de la libreria chart.js y procesar las transacciones del sistema de comentarios.
+
+### 🔄 Flujos Asíncronos Implementados
+
+#### 1. Sistema de Comentarios Reactivo (Fetch API)
+Se implementó un flujo completo de comunicación asíncrona para añadir y visualizar comentarios sobre las actividades de los miembros:
+* **Adaptación Estructural (Modelo de Datos):** En cumplimiento con la especificación de la base de datos entregada (`tabla-comentario.sql`), se diseñó el modelo `Comentario` en SQLAlchemy.
+* **Renderizado de Vistas Híbridas (`member_profile.html`):** Se diseñó una interfaz de pantalla dividida. Al acceder a un perfil, Flask entrega de forma síncrona los datos del miembro (columna izquierda), mientras que una petición `fetch` asíncrona consulta la ruta `GET /api/comments/<id>` para poblar dinámicamente la lista de comentarios sin bloquear el renderizado inicial (columna derecha).
+* **Patrón de Doble Validación:** Al enviar un comentario mediante la petición `POST /api/comments`, se implementó una estricta doble barrera de seguridad:
+    1. **Frontend (JavaScript):** Valida las reglas de negocio (mínimo 3 caracteres para nombre, 5 para texto, etc.) interceptando el evento `submit`. Si falla, la petición se aborta y se despliega feedback visual inmediato, manteniendo el formulario abierto.
+    2. **Backend (Flask):** En `api.py`, se implementaron condicionales paralelos que evalúan el *payload* JSON antes de permitir la transacción en disco (`db.commit()`), blindando la base de datos contra peticiones HTTP manipuladas o externas.
+
+#### 2. Visualización de Datos (charts)
+El panel de métricas (`statistics.html`) se reescribió para consumir la librería externa charts.js Mediante el uso de `fetch`, el cliente consume los datos procesados en la ruta `/api/stats/...` y dibuja dinámicamente:
+* **Gráfico de Líneas:** Miembros registrados en el tiempo (basado en `fecha_registro`).
+* **Gráfico de Torta:** Proporción de actividades extraprogramáticas según su categoría.
+* **Gráfico de Barras:** Distribución geográfica de las actividades cruzadas con las comunas de residencia de los miembros.
+
+Se escogió Chart.js debido a su propósito de renderizado mediante la API Canvas (basado en píxeles) directamente en la pantalla, lo que permite mayor fluidez, rendimiento y rapidez a la hora de cargar y repintar los gráficos.
+
+#### 3. Arquitectura y Jerarquía SQL (Modelo Relacional de Comentarios)
+La integración del sistema de comentarios implicó una decisión arquitectónica clave respecto a la jerarquía y normalización de las entidades en la base de datos:
+
+* **Navegación Relacional (ORM):** Para acoplar esta estructura estricta del backend con el diseño visual del frontend (donde se visualizan los comentarios al abrir el perfil de una persona), se configuraron relaciones bidireccionales en SQLAlchemy (`backref="comentarios"`). Esto permite que el sistema resuelva la consulta navegando jerárquicamente en cadena: `Miembro ➔ Actividades ➔ Comentarios`, garantizando la normalización de la base de datos sin sacrificar la UX de la pantalla dividida.
+
+### 🛡️ Seguridad y Sanitización (Prevención XSS)
+
+* **Función `escapeHTML`:** Se implementó una capa de sanitización en el cliente. Antes de renderizar cualquier comentario (nombre o texto), las cadenas pasan por una cadena de evaluación con expresiones regulares (`RegEx`) que reemplaza caracteres de marcado HTML conflictivos (`<, >, &, ', "`) por sus respectivas entidades (ej: `&lt;`). Esto garantiza que cualquier intento de inyección de código se interprete estrictamente como texto plano, asegurando la integridad del navegador del usuario final.
+* **Cumplimiento W3C:** Se validó la integridad semántica de la estructura base entregada por Flask utilizando los estándares de la W3C

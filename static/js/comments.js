@@ -47,15 +47,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
+                // function to escape HTML special characters to prevent XSS attacks
+                function escapeHTML(str) {
+                    return str.replace(/&/g, "&amp;")
+                              .replace(/</g, "&lt;")
+                              .replace(/>/g, "&gt;")
+                              .replace(/"/g, "&quot;")
+                              .replace(/'/g, "&#039;");
+                }
+
                 // if there are comments, build the HTML to display them
                 let html = '';
                 data.forEach(comment => {
                     html += `
                         <div class="card mb-3 shadow-sm border-0 bg-light">
                             <div class="card-body">
-                                <p class="mb-2">${comment.texto}</p>
+                                <p class="mb-2">${escapeHTML(comment.texto)}</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted"><i class="bi bi-person-fill"></i> ${comment.nombre}</small>
+                                    <small class="text-muted"><i class="bi bi-person-fill"></i> ${escapeHTML(comment.nombre)}</small>
                                     <small class="text-muted"><i class="bi bi-clock"></i> ${comment.fecha}</small>
                                 </div>
                             </div>
