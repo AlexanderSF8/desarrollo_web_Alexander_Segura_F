@@ -1,0 +1,2 @@
+CREATE DATABASE tarea2_appweb
+    DEFAULT CHARACTER SET = 'utf8mb4';

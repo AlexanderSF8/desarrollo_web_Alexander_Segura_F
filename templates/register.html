@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Registro DCC{% endblock %}
+
+{% block content %}
+<div>
+    <h2 class="mb-5 text-center">Registro de Comunidad</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form name="myForm" id="form-register" action="{{ url_for('views.register') }}" method="POST" novalidate>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="complete con su nombre">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="correo@ejemplo.com">
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" name="phone" id="phone" placeholder="569 12345678">
+        </div>
+
+        <div class="mb-3">
+            <label for="region" class="form-label">Región</label>
+            <select class="form-select" id="region" name="region" required>
+                <option value="" disabled selected>Seleccione una región...</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="comuna" class="form-label">Comuna</label>
+            <select class="form-select" id="comuna" name="comuna" disabled required>
+                <option value="" disabled selected>Seleccione una comuna...</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="select-department" class="form-label">Categoría</label>
+            <select class="form-select" name="select-department" id="select-department">
+                <option value="">Seleccione una categoría</option>
+                <option value="funcionario">Funcionario</option>
+                <option value="estudiante">Estudiante</option>
+                <option value="academico">Académico/Docente</option>
+            </select>
+        </div>
+
+        <div class="checkbox" style="margin-top: 20px; margin-bottom: 20px;">
+            <label>
+                <input type="checkbox" name="terminos" id="terminos">
+                 Confirmo ser parte del departamento de Ciencias de la Computación
+                 y que <br> la información proporcionada pueda ser usada para fines estadísticos y de contacto. 
+            </label>
+        </div><br>
+        <div class="d-flex justify-content-between mt-5 mb-3">
+            <a href="{{ url_for('views.index') }}" class="btn btn-outline-secondary btn-lg"><i class="bi bi-arrow-left me-2"></i> Volver al Inicio</a>
+            <button id="submit-btn" type="submit" class="btn btn-primary btn-lg px-5">Continuar <i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/region_comuna.js') }}"></script>
+<script src="{{ url_for('static', filename='js/validation-register.js') }}"></script>
+{% endblock %}
