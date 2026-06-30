@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Buscador de Actividades</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" th:href="@{/css/buscador.css}" />
+  </head>
+
+  <body>
+    <section class="main-container">
+      <h1>Buscador de Actividades Extraprogramáticas</h1>
+      <p>Ingrese al menos 3 caracteres para buscar coincidencias.</p>
+
+      <div class="conf-search-bar">
+        <input class="search-input" id="search-input" type="text" placeholder="Ej: San..." autocomplete="off" />
+      </div>
+
+      <div id="search-list">
+        </div>
+    </section>
+
+    <script th:src="@{/js/buscador.js}"></script>
+  </body>
+</html>

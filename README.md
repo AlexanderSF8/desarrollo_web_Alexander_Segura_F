@@ -105,3 +105,39 @@ La integración del sistema de comentarios implicó una decisión arquitectónic
 
 * **Función `escapeHTML`:** Se implementó una capa de sanitización en el cliente. Antes de renderizar cualquier comentario (nombre o texto), las cadenas pasan por una cadena de evaluación con expresiones regulares (`RegEx`) que reemplaza caracteres de marcado HTML conflictivos (`<, >, &, ', "`) por sus respectivas entidades (ej: `&lt;`). Esto garantiza que cualquier intento de inyección de código se interprete estrictamente como texto plano, asegurando la integridad del navegador del usuario final.
 * **Cumplimiento W3C:** Se validó la integridad semántica de la estructura base entregada por Flask utilizando los estándares de la W3C
+
+
+------------------------------------------------------------------------------------------------------
+
+# Tarea 4: Buscador y Calificador de Actividades Extraprogramáticas
+
+## Descripción del Proyecto
+En esta entrega, la aplicación migró su arquitectura de backend desde un entorno previo en Python hacia el framework **Spring Boot (Java)**, manteniendo y potenciando una interfaz dinámica e interactiva en el cliente mediante **JavaScript (Fetch API)**.
+
+El objetivo principal es proveer un panel centralizado donde la comunidad pueda buscar actividades en tiempo real y evaluarlas numéricamente, viendo los resultados reflejados de forma asíncrona e inmediata sin necesidad de recargar la página web.
+
+---
+
+## Decisiones de Arquitectura y Diseño 
+
+Para asegurar un código mantenible, escalable y limpio de cara a la evaluación, se implementaron las siguientes soluciones arquitectónicas:
+
+* **Estructura y Modularidad: Para:** garantizar la independencia del entorno de desarrollo, se creó la carpeta dedicada tarea4/, la cual contiene de forma exclusiva todos los archivos, modelos y lógicas correspondientes a esta entrega. Esto evita conflictos de configuración con las etapas previas del proyecto y mantiene el repositorio ordenado.
+
+* **Separación de Responsabilidades (Arquitectura en Capas):** El backend se estructuró bajo el patrón clásico de diseño de Spring Boot:
+  * `Models/Entities`: Representación fiel de las tablas de la base de datos relacional mediante JPA.
+  * `Repositories`: Interfaces que extienden de `JpaRepository` encargadas de la comunicación directa con MySQL de forma segura.
+  * `Services`: La capa lógica o "cerebro" donde se calculan los promedios matemáticos y se aplican las restricciones de negocio.
+  * `Controllers`: Controladores especializados (`@Controller` para servir la plantilla de Thymeleaf y `@RestController` para exponer los endpoints JSON de la API).
+
+* **Uso de Data Transfer Objects (DTO):** Se implementó la clase `ActividadDTO` para extraer los datos desde la persistencia antes de enviarlos al frontend. Esto previene de raíz el error clásico de *Recursión Infinita* de las herramientas de serialización de Java (Jackson), evitando que las relaciones bidireccionales de la base de datos relacional (`Actividad` $\leftrightarrow$ `Miembro` $\leftrightarrow$ `Comuna`) saturen la memoria.
+
+* **Consultas de Búsqueda Optimizadas con `@Query`:** En lugar de traer toda la base de datos y filtrarla en memoria, el repositorio utiliza una consulta JPQL personalizada con funciones `LOWER()` y operadores `LIKE`. De este modo, la delegación del filtrado se realiza directamente en el motor de indexación de la base de datos MySQL, optimizando los tiempos de respuesta del `fetch`.
+
+* **Validación de Seguridad en Doble Capa:** Las notas ingresadas pasan por un doble filtro estricto. Primero se validan en el cliente mediante JavaScript (restringiendo los atributos `min` y `max` en el input) y, posteriormente, se vuelven a validar en el método `agregarNota` del servicio del backend antes de realizar el `INSERT` en MySQL.
+
+---
+
+### Entorno y Validacion
+* **Java:** desarrollado y probado sobre JDK 26.
+* Se valido el html en **validator.w3** donde se arrojo errores asociados al thymeleaf(se asume que estos no descuentan).

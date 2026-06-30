@@ -1,0 +1,83 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+.main-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Estilos de la Barra de Búsqueda */
+.conf-search-bar {
+    margin-bottom: 30px;
+}
+.search-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Estructura dividida calcada del boceto del profesor */
+.resultado-actividad {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+/* Lado izquierdo: Información de la actividad */
+.info-actividad {
+    flex: 1;
+    margin-right: 20px;
+}
+.info-actividad p { margin: 5px 0; }
+
+/* Lado derecho: Caja de evaluación */
+.evaluacion-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+    border-left: 2px solid #ddd;
+    padding-left: 20px;
+}
+.evaluacion-box input {
+    width: 60px;
+    padding: 5px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 1.1rem;
+}
+.evaluacion-box button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.evaluacion-box button:hover {
+    background-color: #0056b3;
+}
+
+/* Rúbrica: Destacar texto que calza con el patrón */
+mark {
+    background-color: #ffeb3b;
+    font-weight: bold;
+    padding: 0 2px;
+    border-radius: 3px;
+}
